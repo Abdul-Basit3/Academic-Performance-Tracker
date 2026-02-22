@@ -3,8 +3,8 @@ dist
 .DS_Store
 *.log
 
-# Documentation (if you want to keep it private)
-# DOCUMENTATION.md
+# Documentation
+DOCUMENTATION.md
 
 # IDE and Editor files
 .vscode/

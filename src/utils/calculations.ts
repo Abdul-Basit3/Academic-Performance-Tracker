@@ -114,20 +114,20 @@ export const calculateRequiredGPA = (
  */
 export const getAcademicClass = (cgpa: number, gradingScale: number): { class: string; color: string } => {
   if (gradingScale === 5.0) {
-    // 5.0 scale classification
-    if (cgpa >= 4.5) return { class: 'First Class', color: '#27ae60' };
-    if (cgpa >= 3.5) return { class: 'Second Class (Upper)', color: '#2ecc71' };
-    if (cgpa >= 2.5) return { class: 'Second Class (Lower)', color: '#3498db' };
-    if (cgpa >= 2.0) return { class: 'Third Class', color: '#f39c12' };
-    if (cgpa >= 1.5) return { class: 'Pass', color: '#e67e22' };
-    return { class: 'Fail', color: '#e74c3c' };
+    // 5.0 scale classification - Using high contrast colors for visibility
+    if (cgpa >= 4.5) return { class: 'First Class', color: '#1e8449' };
+    if (cgpa >= 3.5) return { class: 'Second Class (Upper)', color: '#196f3d' };
+    if (cgpa >= 2.5) return { class: 'Second Class (Lower)', color: '#5dade2' };
+    if (cgpa >= 2.0) return { class: 'Third Class', color: '#f5b041' };
+    if (cgpa >= 1.5) return { class: 'Pass', color: '#eb984e' };
+    return { class: 'Fail', color: '#ec7063' };
   } else {
-    // 4.0 scale classification
-    if (cgpa >= 3.6) return { class: 'First Class', color: '#27ae60' };
-    if (cgpa >= 3.0) return { class: 'Second Class (Upper)', color: '#2ecc71' };
-    if (cgpa >= 2.0) return { class: 'Second Class (Lower)', color: '#3498db' };
-    if (cgpa >= 1.5) return { class: 'Third Class', color: '#f39c12' };
-    if (cgpa >= 1.0) return { class: 'Pass', color: '#e67e22' };
-    return { class: 'Fail', color: '#e74c3c' };
+    // 4.0 scale classification - Using high contrast colors for visibility
+    if (cgpa >= 3.6) return { class: 'First Class', color: '#201e84' };
+    if (cgpa >= 3.0) return { class: 'Second Class (Upper)', color: '#e4d726' };
+    if (cgpa >= 2.0) return { class: 'Second Class (Lower)', color: '#c1e911' };
+    if (cgpa >= 1.5) return { class: 'Third Class', color: '#f5b041' };
+    if (cgpa >= 1.0) return { class: 'Pass', color: '#8b0c81' };
+    return { class: 'Fail', color: '#f0210a' };
   }
 };

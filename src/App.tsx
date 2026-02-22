@@ -142,11 +142,11 @@ function App() {
 
       <main className="app-main">
         {activeView === 'dashboard' && <Dashboard semesters={semesters} onNavigate={setActiveView} gradingScale={settings.gradingScale} />}
-        {activeView === 'gpa' && <GPACalculator onSave={addSemester} gradingScale={settings.gradingScale} />}
+        {activeView === 'gpa' && <GPACalculator onSave={addSemester} gradingScale={settings.gradingScale} onNavigate={setActiveView} />}
         {activeView === 'cgpa' && <CGPACalculator semesters={semesters} onUpdate={updateSemester} onDelete={deleteSemester} gradingScale={settings.gradingScale} />}
         {activeView === 'analytics' && <Analytics semesters={semesters} />}
         {activeView === 'goals' && <GoalPredictor semesters={semesters} gradingScale={settings.gradingScale} />}
-        {activeView === 'settings' && <Settings settings={settings} onUpdate={setSettings} onReset={() => setSemesters([])} />}
+        {activeView === 'settings' && <Settings settings={settings} onUpdate={setSettings} onReset={() => setSemesters([])} onNavigate={setActiveView} />}
       </main>
     </div>
   );

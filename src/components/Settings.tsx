@@ -5,13 +5,14 @@ interface SettingsProps {
   settings: AppSettings;
   onUpdate: (settings: AppSettings) => void;
   onReset: () => void;
+  onNavigate: (view: string) => void;
 }
 
 /**
  * Settings component - allows users to customize app preferences
  * Includes grading scale, theme selection, and data reset
  */
-function Settings({ settings, onUpdate, onReset }: SettingsProps) {
+function Settings({ settings, onUpdate, onReset, onNavigate }: SettingsProps) {
   /**
    * Handles data reset with confirmation
    */
@@ -19,6 +20,7 @@ function Settings({ settings, onUpdate, onReset }: SettingsProps) {
     if (confirm('Are you sure you want to reset all data? This action cannot be undone.')) {
       onReset();
       alert('All data has been reset successfully.');
+      onNavigate('dashboard');
     }
   };
 

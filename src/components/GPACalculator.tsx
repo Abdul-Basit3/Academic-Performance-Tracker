@@ -6,13 +6,14 @@ import '../styles/GPACalculator.css';
 interface GPACalculatorProps {
   onSave: (semester: Semester) => void;
   gradingScale: number;
+  onNavigate: (view: string) => void;
 }
 
 /**
  * GPA Calculator component - allows users to calculate semester GPA
  * Users can add multiple courses with credits and grades
  */
-function GPACalculator({ onSave, gradingScale }: GPACalculatorProps) {
+function GPACalculator({ onSave, gradingScale, onNavigate }: GPACalculatorProps) {
   // Semester name input
   const [semesterName, setSemesterName] = useState('');
   
@@ -105,6 +106,9 @@ function GPACalculator({ onSave, gradingScale }: GPACalculatorProps) {
     // Show success message
     setShowSuccess(true);
     setTimeout(() => setShowSuccess(false), 3000);
+
+    // Redirect to dashboard
+    onNavigate('dashboard');
   };
 
   return (

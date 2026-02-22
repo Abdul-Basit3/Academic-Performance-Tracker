@@ -83,7 +83,7 @@
   height: 100vh;
   background: rgba(45, 55, 72, 0.98);
   backdrop-filter: blur(10px);
-  transition: left 0.3s ease;
+  transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 1000;
   overflow-y: auto;
   box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
@@ -104,6 +104,7 @@
   visibility: hidden;
   transition: opacity 0.3s ease, visibility 0.3s ease;
   z-index: 999;
+  touch-action: pan-y;
 }
 
 .sidebar-overlay.open {
@@ -116,6 +117,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 20px;
+  padding-top: calc(20px + env(safe-area-inset-top, 0px));
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
@@ -131,6 +133,11 @@
   font-size: 1.8rem;
   padding: 5px 10px;
   line-height: 1;
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .close-btn:hover {
@@ -141,6 +148,7 @@
   display: flex;
   flex-direction: column;
   padding: 10px;
+  padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px));
 }
 
 .sidebar-nav button {
@@ -155,6 +163,8 @@
   text-align: left;
   margin-bottom: 5px;
   transition: all 0.3s ease;
+  min-height: 48px;
+  touch-action: manipulation;
 }
 
 .sidebar-nav button:hover {
@@ -175,12 +185,33 @@
 }
 
 @media (max-width: 768px) {
+  .app {
+    padding: 15px;
+    padding-top: calc(15px + env(safe-area-inset-top, 0px));
+  }
+  
+  .app-header {
+    margin-bottom: 20px;
+    padding-top: env(safe-area-inset-top, 0px);
+  }
+  
   .app-header h1 {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
+    margin-bottom: 15px;
   }
   
   .menu-toggle {
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    min-height: 44px;
+    padding: 10px;
+    left: 5px;
+  }
+  
+  .header-content {
+    padding-left: 40px;
   }
   
   .desktop-nav {
@@ -194,5 +225,10 @@
   .nav-menu button {
     padding: 8px 15px;
     font-size: 0.85rem;
+  }
+  
+  /* Prevent body scroll when sidebar is open */
+  body.sidebar-open {
+    overflow: hidden;
   }
 }

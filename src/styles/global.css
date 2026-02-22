@@ -1,0 +1,55 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+  line-height: 1.6;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+body.light {
+  background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+  color: #2c3e50;
+}
+
+body.dark {
+  background: linear-gradient(135deg, #1a252f 0%, #0f1419 100%);
+  color: #e8eaed;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  outline: none;
+  font-family: inherit;
+  transition: all 0.3s ease;
+}
+
+input, select {
+  font-family: inherit;
+  outline: none;
+}
+
+.light input, .light select {
+  background: white;
+  color: #2c3e50;
+  border: 1px solid #ddd;
+}
+
+.dark input, .dark select {
+  background: #2d3748;
+  color: #e8eaed;
+  border: 1px solid #4a5568;
+}
+
+.dark input:focus, .dark select:focus {
+  border-color: #48bb78;
+  box-shadow: 0 0 0 3px rgba(72, 187, 120, 0.1);
+}

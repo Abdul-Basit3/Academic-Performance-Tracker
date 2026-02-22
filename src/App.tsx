@@ -16,6 +16,9 @@ function App() {
   // Active view state for navigation
   const [activeView, setActiveView] = useState<string>('dashboard');
   
+  // Mobile sidebar state
+  const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
+  
   // Semesters data - stores all academic records
   const [semesters, setSemesters] = useState<Semester[]>([]);
   
@@ -66,19 +69,76 @@ function App() {
     setSemesters(semesters.filter(s => s.id !== id));
   };
 
+  /**
+   * Handles navigation and closes sidebar on mobile
+   */
+  const handleNavigate = (view: string) => {
+    setActiveView(view);
+    setSidebarOpen(false);
+  };
+
+  /**
+   * Toggles sidebar visibility
+   */
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
+
   return (
     <div className="app">
       <header className="app-header">
-        <h1>🎓 Academic Performance Tracker</h1>
-        <nav className="nav-menu">
-          <button onClick={() => setActiveView('dashboard')} className={activeView === 'dashboard' ? 'active' : ''}>Dashboard</button>
-          <button onClick={() => setActiveView('gpa')} className={activeView === 'gpa' ? 'active' : ''}>GPA Calculator</button>
-          <button onClick={() => setActiveView('cgpa')} className={activeView === 'cgpa' ? 'active' : ''}>CGPA Tracker</button>
-          <button onClick={() => setActiveView('analytics')} className={activeView === 'analytics' ? 'active' : ''}>Analytics</button>
-          <button onClick={() => setActiveView('goals')} className={activeView === 'goals' ? 'active' : ''}>Goal Predictor</button>
-          <button onClick={() => setActiveView('settings')} className={activeView === 'settings' ? 'active' : ''}>Settings</button>
+        <div className="header-content">
+          <button className="menu-toggle" onClick={toggleSidebar} aria-label="Toggle menu">
+            ☰
+          </button>
+          <h1>🎓 Academic Performance Tracker</h1>
+        </div>
+        <nav className="nav-menu desktop-nav">
+          <button onClick={() => handleNavigate('dashboard')} className={activeView === 'dashboard' ? 'active' : ''}>Dashboard</button>
+          <button onClick={() => handleNavigate('gpa')} className={activeView === 'gpa' ? 'active' : ''}>GPA Calculator</button>
+          <button onClick={() => handleNavigate('cgpa')} className={activeView === 'cgpa' ? 'active' : ''}>CGPA Tracker</button>
+          <button onClick={() => handleNavigate('analytics')} className={activeView === 'analytics' ? 'active' : ''}>Analytics</button>
+          <button onClick={() => handleNavigate('goals')} className={activeView === 'goals' ? 'active' : ''}>Goal Predictor</button>
+          <button onClick={() => handleNavigate('settings')} className={activeView === 'settings' ? 'active' : ''}>Settings</button>
         </nav>
       </header>
+
+      {/* Mobile Sidebar */}
+      <div className={`sidebar-overlay ${sidebarOpen ? 'open' : ''}`} onClick={toggleSidebar}></div>
+      <aside className={`sidebar ${sidebarOpen ? 'open' : ''}`}>
+        <div className="sidebar-header">
+          <h2>Menu</h2>
+          <button className="close-btn" onClick={toggleSidebar} aria-label="Close menu">
+            ✕
+          </button>
+        </div>
+        <nav className="sidebar-nav">
+          <button onClick={() => handleNavigate('dashboard')} className={activeView === 'dashboard' ? 'active' : ''}>
+            <span className="nav-icon">📊</span>
+            <span>Dashboard</span>
+          </button>
+          <button onClick={() => handleNavigate('gpa')} className={activeView === 'gpa' ? 'active' : ''}>
+            <span className="nav-icon">🧮</span>
+            <span>GPA Calculator</span>
+          </button>
+          <button onClick={() => handleNavigate('cgpa')} className={activeView === 'cgpa' ? 'active' : ''}>
+            <span className="nav-icon">📚</span>
+            <span>CGPA Tracker</span>
+          </button>
+          <button onClick={() => handleNavigate('analytics')} className={activeView === 'analytics' ? 'active' : ''}>
+            <span className="nav-icon">📈</span>
+            <span>Analytics</span>
+          </button>
+          <button onClick={() => handleNavigate('goals')} className={activeView === 'goals' ? 'active' : ''}>
+            <span className="nav-icon">🎯</span>
+            <span>Goal Predictor</span>
+          </button>
+          <button onClick={() => handleNavigate('settings')} className={activeView === 'settings' ? 'active' : ''}>
+            <span className="nav-icon">⚙️</span>
+            <span>Settings</span>
+          </button>
+        </nav>
+      </aside>
 
       <main className="app-main">
         {activeView === 'dashboard' && <Dashboard semesters={semesters} onNavigate={setActiveView} gradingScale={settings.gradingScale} />}

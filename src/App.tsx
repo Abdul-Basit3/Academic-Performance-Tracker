@@ -28,13 +28,28 @@ function App() {
     theme: 'light',
   });
 
+  // Welcome modal state for new users
+  const [showWelcome, setShowWelcome] = useState<boolean>(false);
+
   // Load saved data from localStorage on initial mount
   useEffect(() => {
     const savedSemesters = loadFromStorage<Semester[]>('semesters') || [];
-    const savedSettings = loadFromStorage<AppSettings>('settings') || settings;
-    setSemesters(savedSemesters);
-    setSettings(savedSettings);
-    document.body.className = savedSettings.theme;
+    const savedSettings = loadFromStorage<AppSettings>('settings');
+    const hasVisited = loadFromStorage<boolean>('hasVisited');
+    
+    if (savedSettings) {
+      setSemesters(savedSemesters);
+      setSettings(savedSettings);
+      document.body.className = savedSettings.theme;
+    } else {
+      // New user - show welcome modal
+      setShowWelcome(true);
+    }
+    
+    // Mark as visited if not already
+    if (!hasVisited) {
+      saveToStorage('hasVisited', true);
+    }
   }, []);
 
   // Save semesters to localStorage whenever they change
@@ -70,6 +85,14 @@ function App() {
   };
 
   /**
+   * Resets all data and shows welcome banner
+   */
+  const handleResetAll = () => {
+    setSemesters([]);
+    setShowWelcome(true);
+  };
+
+  /**
    * Handles navigation and closes sidebar on mobile
    */
   const handleNavigate = (view: string) => {
@@ -82,6 +105,16 @@ function App() {
    */
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
+  };
+
+  /**
+   * Handles grading scale selection from welcome modal
+   */
+  const handleScaleSelection = (scale: number) => {
+    const newSettings = { ...settings, gradingScale: scale };
+    setSettings(newSettings);
+    saveToStorage('settings', newSettings);
+    setShowWelcome(false);
   };
 
   return (
@@ -141,12 +174,12 @@ function App() {
       </aside>
 
       <main className="app-main">
-        {activeView === 'dashboard' && <Dashboard semesters={semesters} onNavigate={setActiveView} gradingScale={settings.gradingScale} />}
+        {activeView === 'dashboard' && <Dashboard semesters={semesters} onNavigate={setActiveView} gradingScale={settings.gradingScale} showWelcome={showWelcome} onSelectScale={handleScaleSelection} />}
         {activeView === 'gpa' && <GPACalculator onSave={addSemester} gradingScale={settings.gradingScale} onNavigate={setActiveView} />}
         {activeView === 'cgpa' && <CGPACalculator semesters={semesters} onUpdate={updateSemester} onDelete={deleteSemester} gradingScale={settings.gradingScale} />}
         {activeView === 'analytics' && <Analytics semesters={semesters} />}
         {activeView === 'goals' && <GoalPredictor semesters={semesters} gradingScale={settings.gradingScale} />}
-        {activeView === 'settings' && <Settings settings={settings} onUpdate={setSettings} onReset={() => setSemesters([])} onNavigate={setActiveView} />}
+        {activeView === 'settings' && <Settings settings={settings} onUpdate={setSettings} onReset={handleResetAll} onNavigate={setActiveView} />}
       </main>
     </div>
   );

@@ -19,6 +19,8 @@ function Settings({ settings, onUpdate, onReset, onNavigate }: SettingsProps) {
   const handleReset = () => {
     if (confirm('Are you sure you want to reset all data? This action cannot be undone.')) {
       onReset();
+      // Clear settings to show welcome banner
+      localStorage.removeItem('settings');
       alert('All data has been reset successfully.');
       onNavigate('dashboard');
     }

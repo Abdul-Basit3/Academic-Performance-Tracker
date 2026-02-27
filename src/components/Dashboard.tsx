@@ -6,13 +6,15 @@ interface DashboardProps {
   semesters: Semester[];
   onNavigate: (view: string) => void;
   gradingScale: number;
+  showWelcome?: boolean;
+  onSelectScale?: (scale: number) => void;
 }
 
 /**
  * Dashboard component - displays academic performance overview
  * Shows CGPA, latest GPA, total credits, and quick action buttons
  */
-function Dashboard({ semesters, onNavigate, gradingScale }: DashboardProps) {
+function Dashboard({ semesters, onNavigate, gradingScale, showWelcome, onSelectScale }: DashboardProps) {
   // Calculate cumulative GPA from all semesters
   const cgpa = calculateCGPA(semesters);
   
@@ -28,6 +30,35 @@ function Dashboard({ semesters, onNavigate, gradingScale }: DashboardProps) {
 
   return (
     <div className="dashboard">
+      {/* Welcome Banner for New Users */}
+      {showWelcome && onSelectScale && (
+        <div className="welcome-banner">
+          <div className="welcome-banner-header">
+            <h3>🎓 Welcome! Choose Your Grading Scale</h3>
+            <p>Select the grading system used by your institution</p>
+          </div>
+          <div className="scale-selection">
+            <button 
+              className="scale-option"
+              onClick={() => onSelectScale(4.0)}
+            >
+              <span className="scale-number">4.0</span>
+              <span className="scale-label">Scale</span>
+              <span className="scale-desc">Most common (A = 4.0)</span>
+            </button>
+            <button 
+              className="scale-option"
+              onClick={() => onSelectScale(5.0)}
+            >
+              <span className="scale-number">5.0</span>
+              <span className="scale-label">Scale</span>
+              <span className="scale-desc">Alternative (A+ = 5.0)</span>
+            </button>
+          </div>
+          <p className="welcome-note">💡 You can change this later in Settings</p>
+        </div>
+      )}
+
       <h2>Academic Dashboard</h2>
       
       <div className="stats-grid">

@@ -29,37 +29,38 @@ function Dashboard({ semesters, onNavigate, gradingScale, showWelcome, onSelectS
   const academicClass = getAcademicClass(cgpa, gradingScale);
 
   return (
-    <div className="dashboard">
-      {/* Welcome Banner for New Users */}
+    <>
+      {/* Welcome Modal for New Users */}
       {showWelcome && onSelectScale && (
-        <div className="welcome-banner">
-          <div className="welcome-banner-header">
-            <h3>🎓 Welcome! Choose Your Grading Scale</h3>
-            <p>Select the grading system used by your institution</p>
+        <div className="modal-overlay">
+          <div className="welcome-modal">
+            <div className="welcome-header">
+              <h2>🎓 Welcome to GPA Calculator!</h2>
+              <p>Choose your grading scale to get started</p>
+            </div>
+            <div className="scale-options">
+              <div className="scale-card" onClick={() => onSelectScale(4.0)}>
+                <div className="scale-icon">4.0</div>
+                <div className="scale-card-content">
+                  <h3>4.0 Scale</h3>
+                  <p>Most common (A = 4.0)</p>
+                </div>
+              </div>
+              <div className="scale-card" onClick={() => onSelectScale(5.0)}>
+                <div className="scale-icon">5.0</div>
+                <div className="scale-card-content">
+                  <h3>5.0 Scale</h3>
+                  <p>Alternative (A+ = 5.0)</p>
+                </div>
+              </div>
+            </div>
+            <p className="modal-note">💡 You can change this later in Settings</p>
           </div>
-          <div className="scale-selection">
-            <button 
-              className="scale-option"
-              onClick={() => onSelectScale(4.0)}
-            >
-              <span className="scale-number">4.0</span>
-              <span className="scale-label">Scale</span>
-              <span className="scale-desc">Most common (A = 4.0)</span>
-            </button>
-            <button 
-              className="scale-option"
-              onClick={() => onSelectScale(5.0)}
-            >
-              <span className="scale-number">5.0</span>
-              <span className="scale-label">Scale</span>
-              <span className="scale-desc">Alternative (A+ = 5.0)</span>
-            </button>
-          </div>
-          <p className="welcome-note">💡 You can change this later in Settings</p>
         </div>
       )}
 
-      <h2>Academic Dashboard</h2>
+      <div className="dashboard">
+        <h2>Academic Dashboard</h2>
       
       <div className="stats-grid">
         <div className="stat-card">
@@ -112,7 +113,8 @@ function Dashboard({ semesters, onNavigate, gradingScale, showWelcome, onSelectS
           </button>
         </div>
       </div>
-    </div>
+      </div>
+    </>
   );
 }
 
